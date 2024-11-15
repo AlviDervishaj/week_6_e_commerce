@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { ProductType } from "../../types/product";
 import TextField from "@mui/material/TextField/TextField";
 import Typography from '@mui/material/Typography/Typography';
@@ -7,9 +7,10 @@ import { Item } from "../ui/Item";
 import { TextareaAutosize } from '../ui/TextareaAutosize';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../../providers/ProductsContext";
-import { FormHelperText } from "@mui/material";
+import { CircularProgress, FormHelperText } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 type InputType = {
   title: string;
@@ -21,29 +22,50 @@ type InputType = {
 
 export const EditProduct = ({ product }: { product: ProductType | undefined }) => {
   const { updateProduct, createProduct } = useContext(ProductsContext);
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<InputType>({
-    defaultValues: {
-      title: product?.title,
-      description: product?.description,
-      price: product?.price,
-      category: product?.category,
-      image: product?.image,
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<InputType>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (product) {
+      reset({
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        category: product.category,
+        image: product.image,
+      });
+      setIsLoading(false);
     }
-  });
+    setIsLoading(false);
+  }, [product, reset]);
 
   const handleFormSubmit = (data: InputType) => {
     if (product) {
       updateProduct({ ...product, ...data });
+      setMessage("Product saved successfully !");
+      setTimeout(() => navigate("/"), 2000);
     }
     else {
+      const _productId = Math.floor(Math.random() * 1000)
       const _newProduct: ProductType = {
-        id: Math.floor(Math.random() * 1000),
+        id: _productId,
         ...data,
         rating: { rate: 0, count: 0 }
       }
       createProduct(_newProduct);
+      setMessage("Product created successfully !");
+      setTimeout(() => navigate(`/product/${_productId}`), 2000);
     }
   }
+
+  if (isLoading) {
+    return <Box display="grid" sx={{ width: 1, height: '90dvh', placeItems: "center" }}>
+      <CircularProgress />
+    </Box>
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -89,6 +111,9 @@ export const EditProduct = ({ product }: { product: ProductType | undefined }) =
           <Box sx={{ width: 0.5, marginX: "auto" }}>
             <TextField placeholder="Product Price" type={"number"} {...register("price", { required: "Do not leave price field empty !" })} />
             {errors.price && <Typography color="error">{errors.price.message}</Typography>}
+          </Box>
+          <Box sx={{ width: 0.5, marginX: "auto" }}>
+            <Typography color="success">{message}</Typography>
           </Box>
           <LoadingButton
             loading={isSubmitting}

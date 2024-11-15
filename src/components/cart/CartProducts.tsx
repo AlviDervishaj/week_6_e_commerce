@@ -39,7 +39,7 @@ export const CartProducts = ({ products }: CartProductsProps) => {
       <Typography color={"secondary.main"} variant="h3" sx={{ textAlign: "center", paddingTop: 1 }}>
         Cart Review
       </Typography>
-      <Box sx={{ display: "flex", alignContent: "center", alignItems: "center", justifyContent: "flex-end", width: 0.8, marginX: "auto" }}>
+      <Box display="flex" alignContent="center" justifyContent="flex-end" sx={{ width: 0.8, marginX: "auto" }}>
         <Button color={"success"} variant="outlined" sx={{}} onClick={() => handleProceedToCheckout()}>Proceed to Checkout</Button>
       </Box>
 

@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import { lazy, Suspense } from 'react';
 import Box from '@mui/material/Box/Box';
 const LazyHome = lazy(() => import('./pages/Home'));
@@ -9,14 +9,13 @@ const LazyCheckout = lazy(() => import('./pages/Checkout').then(module => ({ def
 const LazyReceipts = lazy(() => import('./pages/Receipts').then(module => ({ default: module.Receipts })));
 const LazyReceipt = lazy(() => import('./pages/Receipt').then(module => ({ default: module.Receipt })));
 
+const LoadingSpinner = () =>  <Box display="grid" sx={{width: 1, height: '90dvh', placeItems: "center"}}>
+<CircularProgress />
+</Box>
+
 export const Home = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyHome />
     </Suspense>
   )
@@ -24,12 +23,7 @@ export const Home = () => {
 
 export const Layout = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyLayout />
     </Suspense>
   )
@@ -37,24 +31,14 @@ export const Layout = () => {
 
 export const Cart = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyCart />
     </Suspense>
   )
 }
 export const Product = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyProduct />
     </Suspense>
   )
@@ -62,24 +46,14 @@ export const Product = () => {
 
 export const Checkout = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyCheckout />
     </Suspense>
   )
 }
 export const Receipts = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyReceipts />
     </Suspense>
   )
@@ -87,12 +61,7 @@ export const Receipts = () => {
 
 export const Receipt = () => {
   return (
-    <Suspense fallback={
-      <Box>
-        <CircularProgress size={25} color={"primary"} />
-      </Box>
-    }
-    >
+    <Suspense fallback={<LoadingSpinner/>}>
       <LazyReceipt />
     </Suspense>
   )
