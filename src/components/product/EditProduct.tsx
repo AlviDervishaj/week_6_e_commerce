@@ -1,4 +1,4 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ProductType } from "../../types/product";
 import TextField from "@mui/material/TextField/TextField";
 import Typography from '@mui/material/Typography/Typography';
@@ -11,18 +11,12 @@ import { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../../providers/ProductsContext";
 import { CircularProgress, FormHelperText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
-type InputType = {
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-}
+import { InputType } from "../../types/form";
+import { ControlledAutocomplete } from "../ui/Autocomplete";
 
 export const EditProduct = ({ product }: { product: ProductType | undefined }) => {
   const { updateProduct, createProduct } = useContext(ProductsContext);
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<InputType>();
+  const { control, register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<InputType>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
@@ -56,7 +50,11 @@ export const EditProduct = ({ product }: { product: ProductType | undefined }) =
       }
       createProduct(_newProduct);
       setMessage("Product created successfully !");
-      setTimeout(() => navigate(`/product/${_productId}`), 2000);
+      reset();
+      setTimeout(() => {
+        navigate(`/product/${_productId}`);
+        setMessage("");
+      }, 2000);
     }
   }
 
@@ -105,8 +103,9 @@ export const EditProduct = ({ product }: { product: ProductType | undefined }) =
           </Box>
 
           <Box sx={{ width: 0.5, marginX: "auto" }}>
-            <TextField placeholder="Product Category"{...register("category", { required: "Do not leave category field empty !" })} />
-            {errors.category && <Typography color="error">{errors.category.message}</Typography>}
+            <ControlledAutocomplete control={control} />
+            {/* <TextField placeholder="Product Category"{...register("category", { required: "Do not leave category field empty !" })} />
+            {errors.category && <Typography color="error">{errors.category.message}</Typography>} */}
           </Box>
           <Box sx={{ width: 0.5, marginX: "auto" }}>
             <TextField placeholder="Product Price" type={"number"} {...register("price", { required: "Do not leave price field empty !" })} />

@@ -3,6 +3,7 @@ import { ProductContextType } from "../types/product";
 export const ProductsContext = createContext<ProductContextType>({
   products: [],
   receipts: [],
+  categories: [],
   cart: [],
   totalCartProducts: 0,
   totalCartPrice: 0,

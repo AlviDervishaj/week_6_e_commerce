@@ -1,6 +1,6 @@
 import Button, { ButtonProps } from '@mui/material/Button';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Alert from '@mui/material/Alert/Alert';
 
 type FeedbackProps = {
@@ -12,13 +12,16 @@ type FeedbackProps = {
 }
 
 export const FeedbackButton = ({ errorText, text, buttonText, buttonProps, handleOnClick }: FeedbackProps) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
-  const handleClick = () => {
-    if (handleOnClick) setIsError(!handleOnClick());
-    setOpen(true);
-  };
+  const handleClick = useCallback(() => {
+    if (handleOnClick){ 
+      const _result: boolean = handleOnClick();
+      setIsError(!_result)
+    };
+    setIsOpened(true);
+  }, [handleOnClick]);
 
   const handleClose = (
     _: React.SyntheticEvent | Event,
@@ -28,14 +31,14 @@ export const FeedbackButton = ({ errorText, text, buttonText, buttonProps, handl
       return;
     }
 
-    setOpen(false);
+    setIsOpened(false);
   };
 
   return (
     <div>
       <Button {...buttonProps} onClick={handleClick}>{buttonText}</Button>
       <Snackbar
-        open={open}
+        open={isOpened}
         autoHideDuration={4000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

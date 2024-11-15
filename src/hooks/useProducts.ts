@@ -12,6 +12,7 @@ type InitialStateType = {
   cart: CartItem[];
   sortedProducts: ProductType[];
   receipts: ReceiptType[];
+  categories: string[];
   error: string;
 }
 
@@ -20,6 +21,12 @@ const initialState: InitialStateType = {
   cart: [],
   sortedProducts: [],
   receipts: [],
+  categories:  [
+    "electronics",
+    "jewelery",
+    "men's clothing",
+    "women's clothing"
+    ] as const,
   error: "",
 }
 
@@ -195,6 +202,7 @@ export const useProducts = () => {
         dispatch({ type: "add_to_cart", payload: updatedItem });
         return true;
       }
+      return true;
     }
     return false;
   }

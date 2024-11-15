@@ -25,6 +25,8 @@ export interface ProductContextType {
   products: ProductType[]
   sortedProducts: ProductType[]
   cart: CartItem[]
+  receipts: ReceiptType[]
+  categories: string[]
   totalCartProducts: number
   totalCartPrice: number
   getReceipt: (id: number) => ReceiptType | undefined
@@ -33,7 +35,6 @@ export interface ProductContextType {
   addProductToCart: (product: ProductType) => boolean
   removeProductFromCart: (product: ProductType) => boolean
   getProductsFromCart: () => Array<ProductType & { quantity: number }>
-  receipts: ReceiptType[]
   updateProduct: (product: ProductType) => void
   clearCart: () => boolean
   getProductById: (id: number) => ProductType | undefined

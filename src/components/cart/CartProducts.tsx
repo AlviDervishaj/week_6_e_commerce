@@ -40,7 +40,7 @@ export const CartProducts = ({ products }: CartProductsProps) => {
         Cart Review
       </Typography>
       <Box display="flex" alignContent="center" justifyContent="flex-end" sx={{ width: 0.8, marginX: "auto" }}>
-        <Button color={"success"} variant="outlined" sx={{}} onClick={() => handleProceedToCheckout()}>Proceed to Checkout</Button>
+        <Button color={"success"} variant="outlined" onClick={() => handleProceedToCheckout()}>Proceed to Checkout</Button>
       </Box>
 
       <Grid container spacing={2} sx={{ padding: 3 }}>

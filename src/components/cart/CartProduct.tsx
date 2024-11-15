@@ -19,7 +19,7 @@ export const CartProduct = ({ product }: CartProductProps) => {
     <Grid size={3}>
       <Paper
         variant="elevation"
-        sx={{ paddingX: 2, paddingY: 1 }}
+        sx={{ paddingX: 2, paddingY: 1, minHeight: 353 }}
       >
         <Item
           sx={{

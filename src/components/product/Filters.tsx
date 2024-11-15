@@ -16,19 +16,15 @@ export const Filters = () => {
     const _value = event.target.value;
     switch (_value as string) {
       case 'all':
-        console.log('All');
         sortDefault();
         break;
       case 'price-low-to-high':
-        console.log('Price: Low to High');
         sortByPriceAscending();
         break;
       case 'price-high-to-low':
-        console.log('Price: High to Low');
         sortByPriceDescending();
         break;
       default:
-        console.log('Unknown filter');
         sortDefault();
     }
   };
